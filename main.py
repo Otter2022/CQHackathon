@@ -23,7 +23,7 @@ def draw_rocket():
     no_stroke()
 
     for i in range(25):
-      fill (255, 255 - i10, 0)
+      fill (255, 255 - i * 10, 0)
       ellipse(width/2, rocket_y + i, 8, 3)
 
     fill(200, 200, 200, 100)
