@@ -104,6 +104,8 @@ def draw_rocket():
             fill(255, 255, 0)  # yellow
             ellipse(planet2_x, planet2_y, randint(0,elipse_size), randint(0, elipse_size))
             elipse_size += 1
+        if elipse_size-800 >= screen_size:
+            exit()
           
     
     
