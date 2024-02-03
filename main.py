@@ -5,6 +5,10 @@ from p5 import *
 from random import randint
 from math import sqrt
 from math import atan
+from math import tan
+from math import pi
+from math import sin
+from math import cos
 
 # Setup global variables
 screen_size = 400
@@ -20,7 +24,7 @@ itiration = 0
 fuel = 0
 planet2_x = 0
 planet2_y = 0
-angle = 0
+angle = pi/2
 distance = 0
 
 
@@ -31,12 +35,12 @@ def generate_moon_cords():
     planet2_y = randint(30,screen_size/2)
     if planet2_x < screen_size/2:
         temp_planet_x = (screen_size/2) - planet2_x
+        angle = atan(planet2_y/temp_planet_x) + pi/2
     elif planet2_x > screen_size/2:
-        temp_planet_x = planet2_x - (screen_size/2)
-        
-    distance = sqrt(planet2_x^2+temp_planet_x^2)
-    
-    angle = atan(planet2_y/temp_planet_x)
+        temp_planet_x = planet2_x - (screen_size/2) 
+        angle = atan(planet2_y/temp_planet_x) 
+    distance = sqrt(planet2_x**2+temp_planet_x**2)
+    #angle = atan(planet2_y/temp_planet_x)
 
 def set_vars():
     global fuel, burn, speed
@@ -47,10 +51,13 @@ def set_vars():
 # The draw_rocket function goes here
 def draw_rocket():
     global rocket_y, rocket_x, fuel, burn, angle, distance
+
+    delta_y = sin(angle)
+    delta_x = cos(angle)
     
     if fuel >= burn and rocket_y > high_orbit_y:  # Still flying
-        rocket_y -= speed  # Move the rocket
-        rocket_x -= .1
+        rocket_y -= delta_y * speed
+        rocket_x += delta_x * speed
         fuel -= burn  # Burn fuel
         print('Fuel left: ', fuel)
       
