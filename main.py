@@ -27,6 +27,7 @@ planet2_y = 0
 angle = pi/2
 distance = 0
 distance_traveled = 0
+elipse_size = 1
 
 
 def generate_moon_cords():
@@ -52,45 +53,58 @@ def set_vars():
 
 # The draw_rocket function goes here
 def draw_rocket():
-    global rocket_y, rocket_x, fuel, burn, angle, distance, distance_traveled
+    global rocket_y, rocket_x, fuel, burn, angle, distance, distance_traveled, elipse_size
 
     delta_y = sin(angle)
     delta_x = cos(angle)
 
     distance_traveled += speed
-    
-    if fuel >= burn and rocket_y > high_orbit_y:  # Still flying
-        if planet2_x > screen_size/2:
-            rocket_x += delta_x * speed
-            rocket_y -= delta_y * speed
-        elif planet2_x < screen_size/2:
-            rocket_x -= delta_x * speed
-            rocket_y -= delta_y * speed
-        else:
-            rocket_y -= delta_y * speed
-        fuel -= burn  # Burn fuel
-        print('Fuel left: ', fuel)
-      
-        no_stroke()  # Turn off the stroke
-      
-        for i in range(25):  # Draw 25 burning exhaust ellipses
-            fill(255, 255 - i*10, 0)  # yellow
-            ellipse(rocket_x, rocket_y + i, 8, 3)  # i increases each time the loop repeats
-        
-        fill(200, 200, 200, 100)  # transparent grey
-        
-        for i in range(20):  # draw 20 random smoke ellipses
-            ellipse(rocket_x + randint(-5, 5), rocket_y + randint(20, 50), randint(5, 10), randint(5, 10))
-      
-    if fuel < burn and rocket_y > high_orbit_y:  # No more fuel and not in orbit
-        tint(255, 0, 0)  # Failure
-    elif rocket_y <= orbit_y and rocket_y > high_orbit_y:
-        tint(0, 255, 0)  # Success
-    elif fuel < 1000 and rocket_y <= high_orbit_y:
-        tint(0, 100, 200)  # High orbit success
-    elif fuel >= 1000 and rocket_y <= high_orbit_y: 
-        tint(255, 200, 0)  # Too much fuel
 
+    if distance_traveled <= distance:
+        if fuel >= burn and rocket_y > high_orbit_y:  # Still flying
+            if planet2_x > screen_size/2:
+                rocket_x += delta_x * speed
+                rocket_y -= delta_y * speed
+            elif planet2_x < screen_size/2:
+                rocket_x -= delta_x * speed
+                rocket_y -= delta_y * speed
+            else:
+                rocket_y -= delta_y * speed
+            fuel -= burn  # Burn fuel
+            print('Fuel left: ', fuel)
+          
+            no_stroke()  # Turn off the stroke
+          
+            for i in range(25):  # Draw 25 burning exhaust ellipses
+                fill(255, 255 - i*10, 0)  # yellow
+                ellipse(rocket_x, rocket_y + i, 8, 3)  # i increases each time the loop repeats
+            
+            fill(200, 200, 200, 100)  # transparent grey
+            
+            for i in range(20):  # draw 20 random smoke ellipses
+                ellipse(rocket_x + randint(-5, 5), rocket_y + randint(20, 50), randint(5, 10), randint(5, 10))
+          
+        if fuel < burn and rocket_y > high_orbit_y:  # No more fuel and not in orbit
+            tint(255, 0, 0)  # Failure
+        elif rocket_y <= orbit_y and rocket_y > high_orbit_y:
+            tint(0, 255, 0)  # Success
+        elif fuel < 1000 and rocket_y <= high_orbit_y:
+            tint(0, 100, 200)  # High orbit success
+        elif fuel >= 1000 and rocket_y <= high_orbit_y: 
+            tint(255, 200, 0)  # Too much fuel
+    else:
+        rocket_x = 100000
+        rocket_y = 100000
+        
+        for i in range(10):
+            no_stroke()
+            fill(200, 200, 200, 100)
+            ellipse(planet2_x, planet2_y, randint(0,elipse_size), randint(0, elipse_size))
+            no_stroke()
+            fill(255, 255, 0)  # yellow
+            ellipse(planet2_x, planet2_y, randint(0,elipse_size), randint(0, elipse_size))
+            elipse_size += 1
+          
     
     
     image(rocket, rocket_x, rocket_y, 64, 64)
@@ -132,7 +146,7 @@ def setup():
     planet = load_image('orange_planet.png')  # Your chosen planet
     rocket = load_image('rocket.png')
     planet2 = load_image('moon.png')
-    planet3 = load_image('purple_planet.png')
+    planet3 = load_image('orange_planet.png')
 
 
 def draw():
