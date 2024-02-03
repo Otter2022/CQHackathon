@@ -10,13 +10,14 @@ rocket_y = screen_size  # Start at the bottom
 burn = 100  # How much fuel is burned in each frame
 orbit_radius = 250
 orbit_y = screen_size - orbit_radius
+rocket_x = width/2
 high_orbit_radius = 350
 high_orbit_y = screen_size - high_orbit_radius
 speed = 1  # How far the rocket flies each frame
 
 # The draw_rocket function goes here
 def draw_rocket():
-    global rocket_y, fuel, burn
+    global rocket_y, rocket_x, fuel, burn
     
     if fuel >= burn and rocket_y > high_orbit_y:  # Still flying
         rocket_y -= speed  # Move the rocket
@@ -51,6 +52,8 @@ def draw_rocket():
 def draw_background():
     background(0)  # Short for background(0, 0, 0) - black 
     image(planet, width/2, height, 300, 300)  # draw the image
+    image(planet2, width-50, 90 ,100,100)
+    print(height)
     
     # Draw the lower orbit
     no_fill()  # Turn off any fill
@@ -68,9 +71,10 @@ def setup():
     # Setup your animation here 
     size(screen_size, screen_size)
     image_mode(CENTER)
-    global planet, rocket
+    global planet, rocket, planet2
     planet = load_image('orange_planet.png')  # Your chosen planet
     rocket = load_image('rocket.png')
+    planet2 = load_image('moon.png')
 
 
 def draw():
