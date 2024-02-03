@@ -26,6 +26,7 @@ planet2_x = 0
 planet2_y = 0
 angle = pi/2
 distance = 0
+distance_traveled = 0
 
 
 def generate_moon_cords():
@@ -51,10 +52,12 @@ def set_vars():
 
 # The draw_rocket function goes here
 def draw_rocket():
-    global rocket_y, rocket_x, fuel, burn, angle, distance
+    global rocket_y, rocket_x, fuel, burn, angle, distance, distance_traveled
 
     delta_y = sin(angle)
     delta_x = cos(angle)
+
+    distance_traveled += speed
     
     if fuel >= burn and rocket_y > high_orbit_y:  # Still flying
         if planet2_x > screen_size/2:
@@ -87,6 +90,8 @@ def draw_rocket():
         tint(0, 100, 200)  # High orbit success
     elif fuel >= 1000 and rocket_y <= high_orbit_y: 
         tint(255, 200, 0)  # Too much fuel
+
+    
     
     image(rocket, rocket_x, rocket_y, 64, 64)
     no_tint()
@@ -97,7 +102,7 @@ def draw_rocket():
 
 # The draw_background function goes here
 def draw_background():
-    global planet2_x, planet2_y
+    global planet2_x, planet2_y, distance, distance_traveled
     background(0)  # Short for background(0, 0, 0) - black 
     image(planet, width/2, height, 300, 300)  # draw the image
     image(planet2, planet2_x, planet2_y ,100,100)
@@ -114,15 +119,20 @@ def draw_background():
     stroke_weight(2)
     ellipse(width/2, height, high_orbit_radius*2, high_orbit_radius*2)
 
+    print(distance)
+    print(distance_traveled)
+    if distance_traveled >= distance:
+        image(planet3, planet2_x, planet2_y ,100,100)
 
 def setup():
     # Setup your animation here 
     size(screen_size, screen_size)
     image_mode(CENTER)
-    global planet, rocket, planet2
+    global planet, rocket, planet2, planet3
     planet = load_image('orange_planet.png')  # Your chosen planet
     rocket = load_image('rocket.png')
     planet2 = load_image('moon.png')
+    planet3 = load_image('purple_planet.png')
 
 
 def draw():
